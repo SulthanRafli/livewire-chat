@@ -33,6 +33,20 @@
                                             <small>{{ $message }}</small>
                                         @enderror
                                     </div>
+                                    <div class="form-group">
+                                        <label for="inputPriority">Priority</label>
+                                        <select class="form-control select2bs4" name="priority" id="inputPriority"
+                                            data-placeholder="Choose Priority" style="width: 100%;">
+                                            <option value="">Choose Priority</option>
+                                            <option value="1"
+                                                {{ old('priority', $topic->priority) == 1 ? 'selected' : '' }}>Yes</option>
+                                            <option value="0"
+                                                {{ old('priority', $topic->priority) == 0 ? 'selected' : '' }}>No</option>
+                                        </select>
+                                        @error('priority')
+                                            <small>{{ $message }}</small>
+                                        @enderror
+                                    </div>
                                 </div>
                                 <div class="card-footer text-right">
                                     <a type="button" class="btn btn-danger" href="{{ route('topic') }}">Back</a>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Chat;
 
+use App\Models\Conversation;
 use App\Models\Message;
 use App\Models\Topic;
 use App\Notifications\MessageRead;
@@ -103,6 +104,11 @@ class ChatBox extends Component
                 $this->selectedConversation,
                 $this->selectedConversation->getReceiver()->id
             ));
+
+        $conversation = Conversation::find($this->selectedConversation->id);
+        $conversation->topics_id = $topics_id;
+        $conversation->end_conversation_at = null;
+        $conversation->save();
     }
 
     public function endSession()
@@ -128,6 +134,10 @@ class ChatBox extends Component
                 $this->selectedConversation,
                 $this->selectedConversation->getReceiver()->id
             ));
+
+        $conversation = Conversation::find($this->selectedConversation->id);
+        $conversation->end_conversation_at = now();
+        $conversation->save();
     }
 
     public function sendMessage()
@@ -164,6 +174,6 @@ class ChatBox extends Component
     public function render()
     {
 
-        return view('livewire.chat.chat-box', ['topic' => Topic::all()]);
+        return view('livewire.chat.chat-box', ['topic' => Topic::orderBy('priority', 'desc')->orderBy('id', 'asc')->get()]);
     }
 }

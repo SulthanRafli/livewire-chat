@@ -29,6 +29,11 @@ class Conversation extends Model
         }
     }
 
+    public function getTopic()
+    {
+        return Topic::firstWhere('id', $this->topics_id);
+    }
+
     public function scopeWhereNotDeleted($query)
     {
         $userId = auth()->id();

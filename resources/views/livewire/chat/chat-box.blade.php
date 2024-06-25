@@ -125,8 +125,13 @@ Echo.private('users.{{ Auth()->User()->id }}').notification((notification) => { 
                     ($loadedMessages->last()?->end_conversation_at !== null || $loadedMessages->last() === null) &&
                         auth()->user()?->role == 'student')
                     @foreach ($topic as $d)
-                        <button type="button"
-                            class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2"
+                        <button type="button" @class([
+                            'border focus:outline-none focus:ring-4 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2',
+                            'bg-white hover:bg-gray-100 focus:ring-gray-100 border-gray-300 text-gray-900' =>
+                                $d->priority == 0,
+                            'bg-yellow-500 hover:bg-yellow-400 focus:ring-yellow-300 border-yellow-300 text-white' =>
+                                $d->priority == 1,
+                        ])
                             wire:click="sendTopic('{{ $d->id }}')">{{ $d->name }}</button>
                     @endforeach
                 @else

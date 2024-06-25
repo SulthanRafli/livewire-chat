@@ -43,8 +43,40 @@ class ChatList extends Component
     public function render()
     {
         $user = auth()->user();
+        $conversation = collect();
+        $conversationEnd = collect();
+        $conversationPriority = collect();
+
+        $count = 0;
+        $countEnd = 0;
+        $countPriority = 0;
+
+        $conversationsAll = $user->conversations()->latest('updated_at')->get();
+
+        foreach ($conversationsAll as $val) {
+            if ($val->getTopic()->priority == 1 && $val->end_conversation_at == null) {
+                $conversationPriority->push($val);
+                $countPriority++;
+            }
+
+            if ($val->getTopic()->priority == 0 && $val->end_conversation_at == null) {
+                $conversation->push($val);
+                $count++;
+            }
+
+            if ($val->end_conversation_at) {
+                $conversationEnd->push($val);
+                $countEnd++;
+            }
+        }
+
         return view('livewire.chat.chat-list', [
-            'conversations' => $user->conversations()->latest('updated_at')->get()
+            'conversations' => $conversation,
+            'count' => $count,
+            'conversationPrioritys' => $conversationPriority,
+            'countPriority' => $countPriority,
+            'conversationEnds' => $conversationEnd,
+            'countEnd' => $countEnd,
         ]);
     }
 }

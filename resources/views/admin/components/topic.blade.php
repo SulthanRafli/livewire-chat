@@ -35,6 +35,7 @@
                                         <tr>
                                             <th class="text-center" width="10%">Number</th>
                                             <th class="text-center">Name</th>
+                                            <th class="text-center">Priority</th>
                                             <th class="text-center" width="10%">Action</th>
                                         </tr>
                                     </thead>
@@ -43,6 +44,7 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $d->name }}</td>
+                                                <td>{{ $d->priority == 1 ? 'Yes' : 'No' }}</td>
                                                 <td>
                                                     <div class='btn-group-vertical'>
                                                         <a type='button' href="{{ route('topic.edit', ['id' => $d->id]) }}"

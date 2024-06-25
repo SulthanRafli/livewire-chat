@@ -241,6 +241,7 @@ class AdminController extends Controller
         if ($validator->fails()) return redirect()->back()->withInput()->withErrors($validator);;
 
         $data['name']       = $request->name;
+        $data['priority']   = intval($request->priority);
 
         Topic::create($data);
 
@@ -256,6 +257,7 @@ class AdminController extends Controller
         if ($validator->fails()) return redirect()->back()->withInput()->withErrors($validator);;
 
         $data['name']       = $request->name;
+        $data['priority']   = intval($request->priority);
 
         Topic::find($id)->update($data);
 

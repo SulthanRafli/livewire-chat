@@ -18,6 +18,12 @@ return new class extends Migration
 
             $table->unsignedBigInteger('receiver_id');
             $table->foreign('receiver_id')->references('id')->on('users');
+
+            $table->unsignedBigInteger('topics_id')->nullable();
+            $table->foreign('topics_id')->references('id')->on('topics')->onDelete('set null');
+
+            $table->timestamp('end_conversation_at')->nullable();
+
             $table->softDeletes();
             $table->timestamps();
         });
