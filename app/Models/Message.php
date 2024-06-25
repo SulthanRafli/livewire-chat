@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\EncryptionHelper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -31,5 +32,15 @@ class Message extends Model
     public function isRead(): bool
     {
         return $this->read_at != null;
+    }
+
+    public function getBodyAttribute($value)
+    {
+        return EncryptionHelper::decrypt($value);
+    }
+
+    public function setBodyAttribute($value)
+    {
+        $this->attributes['body'] = EncryptionHelper::encrypt($value);
     }
 }
